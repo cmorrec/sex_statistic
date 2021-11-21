@@ -1,4 +1,4 @@
-package com.zzz.sexstatistic.common
+package com.zzz.sexstatistic.presentation
 
 enum class ActionStatus {
     INIT,

@@ -1,4 +1,4 @@
-package com.zzz.sexstatistic.ui.theme
+package com.zzz.sexstatistic.presentation.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
