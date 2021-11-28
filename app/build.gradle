@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "com.zzz.sexstatistic"
-        minSdk 23
+        minSdk 26
         targetSdk 31
         versionCode 1
         versionName "1.0"
@@ -88,4 +88,7 @@ dependencies {
 
     // Kotlin Extensions and Coroutines support for Room
     implementation "androidx.room:room-ktx:2.3.0"
+
+    // Calendar
+    implementation "io.github.boguszpawlowski.composecalendar:composecalendar:0.2.1"
 }
