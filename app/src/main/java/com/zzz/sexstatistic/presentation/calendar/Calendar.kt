@@ -1,9 +1,13 @@
 package com.zzz.sexstatistic.presentation.calendar
 
+import androidx.compose.foundation.border
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.zzz.sexstatistic.presentation.ActionStatus
 import com.zzz.sexstatistic.presentation.theme.SexStatisticTheme
@@ -34,7 +38,16 @@ fun Calendar(
 
     when (calendarStatus.value) {
         ActionStatus.LOADING -> Text("Month ${month.month.getDisplayName(TextStyle.FULL, Locale.ENGLISH)} loading")
-        ActionStatus.SUCCESS -> SelectableCalendar(calendarState = calendarState)
+        ActionStatus.SUCCESS -> SelectableCalendar(
+            calendarState = calendarState,
+            dayContent = { dayState -> Text(
+                text = dayState.date.dayOfMonth.toString(),
+                modifier = Modifier.border(1.dp, if (dayState.isCurrentDay) Color.Red else Color.Blue)
+            ) },
+//            monthHeader = ,
+//            weekHeader = ,
+//            monthContainer = ,
+        )
     }
 }
 
