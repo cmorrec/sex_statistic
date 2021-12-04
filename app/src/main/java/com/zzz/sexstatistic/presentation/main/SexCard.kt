@@ -1,4 +1,4 @@
-package com.zzz.sexstatistic.presentation.calendar
+package com.zzz.sexstatistic.presentation.main
 
 import androidx.compose.runtime.Composable
 

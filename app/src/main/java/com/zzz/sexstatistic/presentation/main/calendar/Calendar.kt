@@ -1,15 +1,14 @@
-package com.zzz.sexstatistic.presentation.calendar
+package com.zzz.sexstatistic.presentation.main.calendar
 
-import androidx.compose.foundation.border
+import androidx.compose.animation.animateContentSize
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.zzz.sexstatistic.presentation.ActionStatus
+import com.zzz.sexstatistic.presentation.main.MainViewModel
 import com.zzz.sexstatistic.presentation.theme.SexStatisticTheme
 import io.github.boguszpawlowski.composecalendar.SelectableCalendar
 import io.github.boguszpawlowski.composecalendar.rememberSelectableCalendarState
@@ -20,33 +19,31 @@ import java.util.*
 
 @Composable
 fun Calendar(
-    calendarViewModel: CalendarViewModel = hiltViewModel(),
+    mainViewModel: MainViewModel = hiltViewModel(),
 ) {
-    val calendarStatus = calendarViewModel.calendarStatus.collectAsState()
-    val currentMonth = calendarViewModel.currentMonth.collectAsState()
-    val currentDay = calendarViewModel.currentDay.collectAsState()
+    val calendarStatus = mainViewModel.calendarStatus.collectAsState()
+    val currentMonth = mainViewModel.currentMonth.collectAsState()
+    val currentDay = mainViewModel.currentDay.collectAsState()
 
     val calendarState = rememberSelectableCalendarState(
         initialSelectionMode = SelectionMode.Single,
         initialSelection = listOf(LocalDate.now()),
-        onSelectionChanged = { it.forEach { day -> calendarViewModel.getSexListForDay(day) } },
+        onSelectionChanged = { it.forEach { day -> mainViewModel.getSexListForDay(day) } },
     )
     val days = calendarState.selectionState.selection
     val month = calendarState.monthState.currentMonth
-    if (month != currentMonth.value) calendarViewModel.getSexListForMonth(month)
-    if (days.isNotEmpty() && days[0] != currentDay.value) calendarViewModel.getSexListForDay(days[0])
+    if (month != currentMonth.value) mainViewModel.getSexListForMonth(month)
+    if (days.isNotEmpty() && days[0] != currentDay.value) mainViewModel.getSexListForDay(days[0])
 
     when (calendarStatus.value) {
         ActionStatus.LOADING -> Text("Month ${month.month.getDisplayName(TextStyle.FULL, Locale.ENGLISH)} loading")
         ActionStatus.SUCCESS -> SelectableCalendar(
+            modifier = Modifier.animateContentSize(),
             calendarState = calendarState,
-            dayContent = { dayState -> Text(
-                text = dayState.date.dayOfMonth.toString(),
-                modifier = Modifier.border(1.dp, if (dayState.isCurrentDay) Color.Red else Color.Blue)
-            ) },
-//            monthHeader = ,
-//            weekHeader = ,
-//            monthContainer = ,
+            dayContent = { DayContent(dayState = it, calendarState = calendarState) },
+            monthHeader = { MonthHeader(it) },
+            weekHeader = { WeekHeader(it) },
+            monthContainer = { MonthContainer(it) },
         )
     }
 }

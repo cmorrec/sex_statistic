@@ -1,4 +1,4 @@
-package com.zzz.sexstatistic.presentation.calendar
+package com.zzz.sexstatistic.presentation.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,7 +13,7 @@ import java.time.YearMonth
 import javax.inject.Inject
 
 @HiltViewModel
-class CalendarViewModel @Inject constructor(
+class MainViewModel @Inject constructor(
 //    private val authUseCases: AuthUseCases,
 ): ViewModel() {
     private val _calendarStatus = MutableStateFlow(ActionStatus.INIT)
@@ -49,7 +49,7 @@ class CalendarViewModel @Inject constructor(
 //                    login = login,
 //                    password = password,
 //                )
-                delay(1500)
+                delay(500)
                 _calendarStatus.value = ActionStatus.SUCCESS
             }
         }
@@ -60,7 +60,7 @@ class CalendarViewModel @Inject constructor(
         viewModelScope.launch {
             _dayStatus.value = ActionStatus.LOADING
             launch {
-                delay(3000)
+                delay(1000)
                 _dayStatus.value = ActionStatus.SUCCESS
             }
         }

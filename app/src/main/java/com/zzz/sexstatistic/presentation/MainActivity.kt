@@ -11,7 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.zzz.sexstatistic.presentation.theme.SexStatisticTheme
 import com.zzz.sexstatistic.presentation.auth.AuthScreen
-import com.zzz.sexstatistic.presentation.calendar.CalendarScreen
+import com.zzz.sexstatistic.presentation.main.CalendarScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

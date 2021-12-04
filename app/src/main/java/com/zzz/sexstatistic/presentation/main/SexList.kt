@@ -1,4 +1,4 @@
-package com.zzz.sexstatistic.presentation.calendar
+package com.zzz.sexstatistic.presentation.main
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -10,10 +10,10 @@ import com.zzz.sexstatistic.presentation.theme.SexStatisticTheme
 
 @Composable
 fun SexList(
-    calendarViewModel: CalendarViewModel = hiltViewModel(),
+    mainViewModel: MainViewModel = hiltViewModel(),
 ) {
-    val dayStatus = calendarViewModel.dayStatus.collectAsState()
-    val currentDay = calendarViewModel.currentDay.collectAsState()
+    val dayStatus = mainViewModel.dayStatus.collectAsState()
+    val currentDay = mainViewModel.currentDay.collectAsState()
 
     when (dayStatus.value) {
         ActionStatus.LOADING -> Text("Day ${currentDay.value?.dayOfMonth} loading")
