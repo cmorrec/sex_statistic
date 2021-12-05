@@ -1,6 +1,8 @@
 package com.zzz.sexstatistic.presentation.main.calendar
 
 import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -24,6 +26,7 @@ fun Calendar(
     val calendarStatus = mainViewModel.calendarStatus.collectAsState()
     val currentMonth = mainViewModel.currentMonth.collectAsState()
     val currentDay = mainViewModel.currentDay.collectAsState()
+    val monthSexList = mainViewModel.monthSexList.collectAsState()
 
     val calendarState = rememberSelectableCalendarState(
         initialSelectionMode = SelectionMode.Single,
@@ -35,9 +38,8 @@ fun Calendar(
     if (month != currentMonth.value) mainViewModel.getSexListForMonth(month)
     if (days.isNotEmpty() && days[0] != currentDay.value) mainViewModel.getSexListForDay(days[0])
 
-    when (calendarStatus.value) {
-        ActionStatus.LOADING -> Text("Month ${month.month.getDisplayName(TextStyle.FULL, Locale.ENGLISH)} loading")
-        ActionStatus.SUCCESS -> SelectableCalendar(
+    Column {
+        SelectableCalendar(
             modifier = Modifier.animateContentSize(),
             calendarState = calendarState,
             dayContent = { DayContent(dayState = it, calendarState = calendarState) },
@@ -45,6 +47,9 @@ fun Calendar(
             weekHeader = { WeekHeader(it) },
             monthContainer = { MonthContainer(it) },
         )
+        when (calendarStatus.value) {
+            ActionStatus.LOADING -> CircularProgressIndicator()
+        }
     }
 }
 
