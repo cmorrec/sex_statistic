@@ -2,14 +2,19 @@ package com.zzz.sexstatistic.presentation.main.calendar
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
+import androidx.compose.material.ripple.RippleTheme
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.github.boguszpawlowski.composecalendar.CalendarState
 import io.github.boguszpawlowski.composecalendar.day.DayState
@@ -38,7 +43,15 @@ fun DayContent(
                 CircleShape,
             )
             .padding(4.dp)
-            .clickable(enabled = !isSelected) {
+            .clickable(
+                indication = rememberRipple(
+                    bounded = false,
+                    color = RippleTheme.defaultRippleColor(Color.Black, true),
+                    radius = Dp.Unspecified,
+                ),
+                enabled = !isSelected,
+                interactionSource = remember { MutableInteractionSource() },
+            ) {
                 calendarState.selectionState.selection = listOf(date)
                 // TODO animate change of month
                 if (!isCurrentMonth) calendarState.monthState.currentMonth = dateMonth
