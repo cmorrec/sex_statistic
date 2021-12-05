@@ -1,11 +1,13 @@
 package com.zzz.sexstatistic.presentation.main.calendar
 
 import androidx.compose.animation.animateContentSize
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.zzz.sexstatistic.presentation.ActionStatus
@@ -34,18 +36,21 @@ fun Calendar(
     val month = calendarState.monthState.currentMonth
     if (month != currentMonth.value) mainViewModel.getSexListForMonth(month)
     if (days.isNotEmpty() && days[0] != currentDay.value) mainViewModel.getSexListForDay(days[0])
+    val isLoading = calendarStatus.value == ActionStatus.LOADING
 
-    Column {
+    Box {
         SelectableCalendar(
-            modifier = Modifier.animateContentSize(),
+            modifier = Modifier
+                .animateContentSize()
+                .alpha(if (isLoading) 0.3f else 1f),
             calendarState = calendarState,
             dayContent = { DayContent(dayState = it, calendarState = calendarState) },
             monthHeader = { MonthHeader(it) },
             weekHeader = { WeekHeader(it) },
             monthContainer = { MonthContainer(it) },
         )
-        when (calendarStatus.value) {
-            ActionStatus.LOADING -> CircularProgressIndicator()
+        if (isLoading) {
+            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
         }
     }
 }
