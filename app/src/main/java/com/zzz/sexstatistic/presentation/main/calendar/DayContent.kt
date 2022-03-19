@@ -6,6 +6,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.ripple.RippleTheme
 import androidx.compose.material.ripple.rememberRipple
@@ -39,7 +40,7 @@ fun DayContent(
             .padding(4.dp)
             .border(
                 if (isCurrentMonth) 1.dp else 0.dp,
-                if (dayState.isCurrentDay) Color.Red else Color.Gray,
+                if (dayState.isCurrentDay) MaterialTheme.colors.primaryVariant else Color.Gray,
                 CircleShape,
             )
             .padding(4.dp)
@@ -57,6 +58,10 @@ fun DayContent(
                 if (!isCurrentMonth) calendarState.monthState.currentMonth = dateMonth
             },
         textAlign = TextAlign.Center,
-        color = if (isSelected) Color.Cyan else if (isCurrentMonth) Color.Black else Color.LightGray,
+        color = when {
+            isSelected -> MaterialTheme.colors.secondary
+            isCurrentMonth -> Color.Black
+            else -> Color.LightGray
+        }
     )
 }
