@@ -18,6 +18,8 @@ import com.zzz.sexstatistic.presentation.main.CalendarScreen
 import com.zzz.sexstatistic.presentation.navigation.NavBar
 import dagger.hilt.android.AndroidEntryPoint
 
+val SCREEN_ROUTES_WITHOUT_NAVBAR = listOf(Routes.SIGN_IN, Routes.SIGN_UP)
+
 @ExperimentalAnimationApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -34,10 +36,11 @@ class MainActivity : ComponentActivity() {
                     val navBackStackEntry by navController.currentBackStackEntryAsState()
                     Scaffold(
                         scaffoldState = scaffoldState,
-                        topBar = { when (navBackStackEntry?.destination?.route) {
-                            Routes.SIGN_IN, Routes.SIGN_UP -> {}
-                            else -> NavBar(scope = scope, scaffoldState = scaffoldState)
-                        } },
+                        topBar = {
+                            if (navBackStackEntry?.destination?.route !in SCREEN_ROUTES_WITHOUT_NAVBAR) {
+                                NavBar(scope = scope, scaffoldState = scaffoldState)
+                            }
+                        },
                         drawerContent = {
                             Menu(scope = scope, scaffoldState = scaffoldState, navController = navController)
                         },

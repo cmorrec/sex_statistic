@@ -61,8 +61,11 @@ fun Menu(scope: CoroutineScope, scaffoldState: ScaffoldState, navController: Nav
 							saveState = true
 						}
 					}
-					launchSingleTop = true
+					if (item.route in listOf(Routes.SIGN_IN, Routes.SIGN_UP)) {
+						navController.backQueue.clear()
+					}
 					restoreState = true
+					launchSingleTop = true
 				}
 				scope.launch {
 					scaffoldState.drawerState.close()

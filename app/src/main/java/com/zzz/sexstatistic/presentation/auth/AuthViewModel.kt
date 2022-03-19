@@ -29,7 +29,9 @@ class AuthViewModel @Inject constructor(
 			)
 			_status.value = res
             if (res == ActionStatus.SUCCESS) {
-                navController.navigate(Routes.MAIN)
+                navController.navigate(Routes.MAIN) {
+	                navController.backQueue.clear()
+                }
             }
 		}
 	}
