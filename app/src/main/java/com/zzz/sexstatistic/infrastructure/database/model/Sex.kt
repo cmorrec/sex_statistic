@@ -1,6 +1,6 @@
 package com.zzz.sexstatistic.infrastructure.database.model
 
-import java.util.Date
+import java.time.LocalDateTime
 
 data class SexPerson(
     val person: Person,
@@ -9,8 +9,9 @@ data class SexPerson(
 
 data class Sex(
     val id: String,
-    val startDate: Date,
+    val startDate: LocalDateTime,
     val duration: Int,
     val place: String,
     val sexPersons: List<SexPerson>?,
+    val rating: Double?,
 )

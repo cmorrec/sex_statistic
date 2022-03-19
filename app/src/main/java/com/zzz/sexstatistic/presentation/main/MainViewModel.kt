@@ -13,9 +13,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.YearMonth
-import java.time.ZoneId
-import java.util.*
 import javax.inject.Inject
 
 val person1 = Person(id = "1", gender = Gender.MALE, nickname = "cmorrec", sexList = null)
@@ -25,31 +24,34 @@ val sexList = listOf(
         id = "1",
         duration = 45,
         place = "Кровать",
-        startDate = Date(121, 11, 4, 18, 45),
+        startDate = LocalDateTime.of(2022, 3, 19, 18, 45),
         sexPersons = listOf(
             SexPerson(person = person1, rating = 8.6),
             SexPerson(person = person2, rating = 7.8),
         ),
+        rating = 8.2,
     ),
     Sex(
         id = "2",
         duration = 60,
         place = "Крыша",
-        startDate = Date(121, 11, 4, 21, 30),
+        startDate = LocalDateTime.of(2022, 3, 19, 21, 30),
         sexPersons = listOf(
             SexPerson(person = person1, rating = 8.3),
             SexPerson(person = person2, rating = 8.5),
         ),
+        rating = 8.4,
     ),
     Sex(
         id = "3",
         duration = 75,
         place = "Стол",
-        startDate = Date(121, 11, 7, 21, 30),
+        startDate = LocalDateTime.of(2022, 3, 20, 21, 30),
         sexPersons = listOf(
             SexPerson(person = person1, rating = 10.0),
             SexPerson(person = person2, rating = 9.5),
         ),
+        rating = 9.75,
     ),
 )
 
@@ -96,9 +98,7 @@ class MainViewModel @Inject constructor(
             _currentDay.value = day
             _dayStatus.value = ActionStatus.LOADING
             delay(3000)
-            _daySexList.value = sexList.filter { sex -> day.isEqual(sex.startDate.toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalDate()) }
+            _daySexList.value = sexList.filter { sex -> day.isEqual(sex.startDate.toLocalDate()) }
             _dayStatus.value = ActionStatus.SUCCESS
         }
     }
