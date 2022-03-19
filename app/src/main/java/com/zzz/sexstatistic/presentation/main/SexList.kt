@@ -14,6 +14,7 @@ fun SexList(
 ) {
     val dayStatus = mainViewModel.dayStatus.collectAsState()
     val currentDay = mainViewModel.currentDay.collectAsState()
+    print("dayStatus" + dayStatus.value)
 
     when (dayStatus.value) {
         ActionStatus.LOADING -> Text("Day ${currentDay.value?.dayOfMonth} loading")

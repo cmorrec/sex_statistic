@@ -82,28 +82,24 @@ class MainViewModel @Inject constructor(
         get() = _daySexList
 
     fun getSexListForMonth(month: YearMonth) {
-        _currentMonth.value = month
         viewModelScope.launch {
+            _currentMonth.value = month
             _calendarStatus.value = ActionStatus.LOADING
-            launch {
-                delay(1500)
-                _monthSexList.value = sexList
-                _calendarStatus.value = ActionStatus.SUCCESS
-            }
+            delay(1500)
+            _monthSexList.value = sexList
+            _calendarStatus.value = ActionStatus.SUCCESS
         }
     }
 
     fun getSexListForDay(day: LocalDate) {
-        _currentDay.value = day
         viewModelScope.launch {
+            _currentDay.value = day
             _dayStatus.value = ActionStatus.LOADING
-            launch {
-                delay(3000)
-                _daySexList.value = sexList.filter { sex -> day.isEqual(sex.startDate.toInstant()
-                    .atZone(ZoneId.systemDefault())
-                    .toLocalDate()) }
-                _dayStatus.value = ActionStatus.SUCCESS
-            }
+            delay(3000)
+            _daySexList.value = sexList.filter { sex -> day.isEqual(sex.startDate.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate()) }
+            _dayStatus.value = ActionStatus.SUCCESS
         }
     }
 }

@@ -19,6 +19,6 @@ fun AuthScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        SignIn()
+        SignIn(navController)
     }
 }

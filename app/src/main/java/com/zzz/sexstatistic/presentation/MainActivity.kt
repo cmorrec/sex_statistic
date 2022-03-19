@@ -1,22 +1,26 @@
 package com.zzz.sexstatistic.presentation
 
+import com.zzz.sexstatistic.presentation.navigation.Menu
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
+import androidx.compose.material.*
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.zzz.sexstatistic.presentation.theme.SexStatisticTheme
 import com.zzz.sexstatistic.presentation.auth.AuthScreen
 import com.zzz.sexstatistic.presentation.main.CalendarScreen
+import com.zzz.sexstatistic.presentation.navigation.NavBar
 import dagger.hilt.android.AndroidEntryPoint
 
+@ExperimentalAnimationApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -24,16 +28,30 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     color = MaterialTheme.colors.background
                 ) {
+                    val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
+                    val scope = rememberCoroutineScope()
                     val navController = rememberNavController()
-                    NavHost(
-                        navController = navController,
-                        startDestination = Routes.MAIN,
+                    val navBackStackEntry by navController.currentBackStackEntryAsState()
+                    Scaffold(
+                        scaffoldState = scaffoldState,
+                        topBar = { when (navBackStackEntry?.destination?.route) {
+                            Routes.SIGN_IN, Routes.SIGN_UP -> {}
+                            else -> NavBar(scope = scope, scaffoldState = scaffoldState)
+                        } },
+                        drawerContent = {
+                            Menu(scope = scope, scaffoldState = scaffoldState, navController = navController)
+                        },
                     ) {
-                        composable(route = Routes.SIGN_IN) {
-                            AuthScreen(navController = navController)
-                        }
-                        composable(route = Routes.MAIN) {
-                            CalendarScreen(navController = navController)
+                        NavHost(
+                            navController = navController,
+                            startDestination = Routes.MAIN,
+                        ) {
+                            composable(route = Routes.SIGN_IN) {
+                                AuthScreen(navController = navController)
+                            }
+                            composable(route = Routes.MAIN) {
+                                CalendarScreen(navController = navController)
+                            }
                         }
                     }
                 }

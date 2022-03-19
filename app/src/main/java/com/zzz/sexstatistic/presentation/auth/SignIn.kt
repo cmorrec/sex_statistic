@@ -10,14 +10,14 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.zzz.sexstatistic.presentation.ActionStatus
-import com.zzz.sexstatistic.presentation.theme.SexStatisticTheme
 
 @Composable
 fun SignIn(
+    navController: NavHostController,
     authViewModel: AuthViewModel = hiltViewModel(),
 ) {
     val (login, setLogin) = rememberSaveable { mutableStateOf("") }
@@ -42,18 +42,10 @@ fun SignIn(
     )
 
     Button(
-        onClick = { authViewModel.signIn(login, password) },
+        onClick = { authViewModel.signIn(login, password, navController) },
         modifier = Modifier.padding(top = 8.dp),
         enabled = status != ActionStatus.LOADING
     ) {
         Text("Жмакай")
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    SexStatisticTheme {
-        SignIn()
     }
 }

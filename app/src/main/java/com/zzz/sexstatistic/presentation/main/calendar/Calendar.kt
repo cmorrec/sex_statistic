@@ -37,7 +37,7 @@ fun Calendar(
     if (month != currentMonth.value) mainViewModel.getSexListForMonth(month)
     if (days.isNotEmpty() && days[0] != currentDay.value) mainViewModel.getSexListForDay(days[0])
     val isLoading = calendarStatus.value == ActionStatus.LOADING
-
+    print("calendarStatus" + calendarStatus.value)
     Box {
         SelectableCalendar(
             modifier = Modifier
