@@ -1,10 +1,16 @@
 package com.zzz.sexstatistic.di
 
 import android.app.Application
-import com.zzz.sexstatistic.domain.AuthUseCases
-import com.zzz.sexstatistic.domain.SignIn
+import com.zzz.sexstatistic.domain.auth.AuthUseCases
+import com.zzz.sexstatistic.domain.auth.SignIn
 import com.zzz.sexstatistic.domain.repo.AuthRepo
+import com.zzz.sexstatistic.domain.repo.SexRepo
+import com.zzz.sexstatistic.domain.sex.GetSexById
+import com.zzz.sexstatistic.domain.sex.GetSexListForDay
+import com.zzz.sexstatistic.domain.sex.GetSexListForMonth
+import com.zzz.sexstatistic.domain.sex.SexUseCases
 import com.zzz.sexstatistic.infrastructure.AuthRepoImpl
+import com.zzz.sexstatistic.infrastructure.SexRepoImpl
 import com.zzz.sexstatistic.infrastructure.database.getAuthSharedPreferences
 import dagger.Module
 import dagger.Provides
@@ -27,9 +33,28 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideSexRepo(app: Application): SexRepo {
+        val authSharedPreferences = getAuthSharedPreferences(app)
+        return SexRepoImpl(
+            authSharedPreferences = authSharedPreferences,
+        )
+    }
+
+    @Provides
+    @Singleton
     fun provideAuthUseCases(repo: AuthRepo): AuthUseCases {
         return AuthUseCases(
             signIn = SignIn(repo),
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideSexUseCases(repo: SexRepo): SexUseCases {
+        return SexUseCases(
+            getSexById = GetSexById(repo),
+            getSexListForDay = GetSexListForDay(repo),
+            getSexListForMonth = GetSexListForMonth(repo),
         )
     }
 }

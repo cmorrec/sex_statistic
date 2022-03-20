@@ -21,6 +21,6 @@ fun CalendarScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Calendar()
-        SexList()
+        SexList(navController)
     }
 }

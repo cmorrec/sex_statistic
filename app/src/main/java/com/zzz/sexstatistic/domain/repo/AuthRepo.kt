@@ -15,4 +15,5 @@ interface AuthRepo {
     suspend fun getToken(): String?
 
     suspend fun getUser(): UserShortInfo?
+
 }

@@ -7,4 +7,13 @@ object Routes {
     const val PROFILE = "/profile"
     const val INBOX = "/inbox"
     const val PARTNERS = "/partners"
+    const val NEX_SEX = "/new_sex"
+
+    fun getSexRoute(sexId: String): String {
+        return "/sex/$sexId"
+    }
+
+    fun getSexEditRoute(sexId: String): String {
+        return "/sex/$sexId/edit"
+    }
 }

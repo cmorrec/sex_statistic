@@ -2,6 +2,7 @@ package com.zzz.sexstatistic.presentation.main
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
@@ -17,17 +18,26 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.zzz.sexstatistic.infrastructure.database.model.Gender
+import com.zzz.sexstatistic.infrastructure.database.model.Person
 import com.zzz.sexstatistic.infrastructure.database.model.Sex
 import com.zzz.sexstatistic.infrastructure.database.model.SexPerson
+import com.zzz.sexstatistic.presentation.Routes
 import com.zzz.sexstatistic.presentation.theme.SexStatisticTheme
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun SexCard(sex: Sex) {
+fun SexCard(
+    sex: Sex,
+    navController: NavHostController
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
+//            .clickable { navController.navigate(Routes.getSexRoute(sex.id)) }
             .padding(horizontal = 16.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
@@ -67,7 +77,9 @@ fun SexCard(sex: Sex) {
         Icon(
             imageVector = Icons.Filled.Person,
             contentDescription = sex.id,
-            modifier = Modifier.size(64.dp),
+            modifier = Modifier
+                .size(64.dp)
+                .clickable { navController.navigate(Routes.getSexEditRoute(sex.id)) },
         )
     }
 }
@@ -85,6 +97,7 @@ fun getRating(rating: Double?): String {
 @Composable
 fun DefaultSexCardPreview() {
     SexStatisticTheme {
+        val navController = rememberNavController()
         SexCard(
             Sex(
                 id = "3",
@@ -92,11 +105,28 @@ fun DefaultSexCardPreview() {
                 place = "Стол",
                 startDate = LocalDateTime.of(2022, 3, 20, 21, 30),
                 sexPersons = listOf(
-                    SexPerson(person = person1, rating = 10.0),
-                    SexPerson(person = person2, rating = 9.5),
+                    SexPerson(
+                        person = Person(
+                            id = "1",
+                            nickname = "vrhaena",
+                            gender = Gender.FEMALE,
+                            sexList = null,
+                        ),
+                        rating = 10.0,
+                    ),
+                    SexPerson(
+                        person = Person(
+                            id = "2",
+                            nickname = "cmorrec",
+                            gender = Gender.MALE,
+                            sexList = null,
+                        ),
+                        rating = 9.5,
+                    ),
                 ),
                 rating = 9.75,
-            )
+            ),
+            navController,
         )
     }
 }

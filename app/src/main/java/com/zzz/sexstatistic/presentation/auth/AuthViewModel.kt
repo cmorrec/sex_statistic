@@ -3,7 +3,7 @@ package com.zzz.sexstatistic.presentation.auth
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
-import com.zzz.sexstatistic.domain.AuthUseCases
+import com.zzz.sexstatistic.domain.auth.AuthUseCases
 import com.zzz.sexstatistic.presentation.ActionStatus
 import com.zzz.sexstatistic.presentation.Routes
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-	private val authUseCases: AuthUseCases,
+    private val authUseCases: AuthUseCases,
 ) : ViewModel() {
 	private val _status = MutableStateFlow(ActionStatus.INIT)
 	val status: StateFlow<ActionStatus>

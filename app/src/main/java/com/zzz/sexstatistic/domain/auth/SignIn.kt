@@ -1,4 +1,4 @@
-package com.zzz.sexstatistic.domain
+package com.zzz.sexstatistic.domain.auth
 
 import com.zzz.sexstatistic.domain.repo.AuthRepo
 import com.zzz.sexstatistic.infrastructure.network.model.AuthRequest

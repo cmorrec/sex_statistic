@@ -1,8 +1,8 @@
 package com.zzz.sexstatistic.infrastructure.database.model
 
 object Gender {
-    val MALE = "male"
-    val FEMALE = "female"
+    const val MALE = "male"
+    const val FEMALE = "female"
 }
 
 data class Person(

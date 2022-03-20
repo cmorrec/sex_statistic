@@ -16,6 +16,7 @@ import com.zzz.sexstatistic.presentation.theme.SexStatisticTheme
 import com.zzz.sexstatistic.presentation.auth.AuthScreen
 import com.zzz.sexstatistic.presentation.main.CalendarScreen
 import com.zzz.sexstatistic.presentation.navigation.NavBar
+import com.zzz.sexstatistic.presentation.sexEdit.SexEdit
 import dagger.hilt.android.AndroidEntryPoint
 
 val SCREEN_ROUTES_WITHOUT_NAVBAR = listOf(Routes.SIGN_IN, Routes.SIGN_UP)
@@ -54,6 +55,12 @@ class MainActivity : ComponentActivity() {
                             }
                             composable(route = Routes.MAIN) {
                                 CalendarScreen(navController = navController)
+                            }
+                            composable(route = "/sex/{sexId}/edit") { backStackEntry ->
+                                SexEdit(sexId = backStackEntry.arguments?.getString("sexId"))
+                            }
+                            composable(route = Routes.NEX_SEX) {
+                                SexEdit(sexId = null)
                             }
                         }
                     }

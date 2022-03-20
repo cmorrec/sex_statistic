@@ -7,10 +7,6 @@ import com.zzz.sexstatistic.infrastructure.network.model.AuthRequest
 import com.zzz.sexstatistic.infrastructure.network.model.AuthResponse
 import kotlinx.coroutines.delay
 
-const val AUTH_TOKEN = "authToken"
-const val USER_ID = "userId"
-const val USERNAME = "username"
-
 class AuthRepoImpl(
     private val authSharedPreferences: SharedPreferences,
 ): AuthRepo {
@@ -27,20 +23,20 @@ class AuthRepoImpl(
 
     override suspend fun saveAuthResult(result: AuthResponse) {
         with (authSharedPreferences.edit()) {
-            putString(AUTH_TOKEN, result.authToken)
-            putString(USER_ID, result.userId)
-            putString(USERNAME, result.username)
+            putString(SharedPreferencesKeys.AUTH_TOKEN, result.authToken)
+            putString(SharedPreferencesKeys.USER_ID, result.userId)
+            putString(SharedPreferencesKeys.USERNAME, result.username)
             apply()
         }
     }
 
     override suspend fun getToken(): String? {
-        return authSharedPreferences.getString(AUTH_TOKEN, null)
+        return authSharedPreferences.getString(SharedPreferencesKeys.AUTH_TOKEN, null)
     }
 
     override suspend fun getUser(): UserShortInfo? {
-        val userId = authSharedPreferences.getString(USER_ID, null)
-        val username = authSharedPreferences.getString(USERNAME, null)
+        val userId = authSharedPreferences.getString(SharedPreferencesKeys.USER_ID, null)
+        val username = authSharedPreferences.getString(SharedPreferencesKeys.USERNAME, null)
         if (userId == null || username == null) return null
         return UserShortInfo(userId = userId, username = username)
     }
