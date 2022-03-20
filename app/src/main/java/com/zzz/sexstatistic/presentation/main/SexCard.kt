@@ -79,7 +79,17 @@ fun SexCard(
             contentDescription = sex.id,
             modifier = Modifier
                 .size(64.dp)
-                .clickable { navController.navigate(Routes.getSexEditRoute(sex.id)) },
+                .clickable {
+                    navController.navigate(Routes.getSexEditRoute(sex.id)) {
+                        navController.graph.startDestinationRoute?.let { route ->
+                            popUpTo(route) {
+                                saveState = true
+                            }
+                        }
+                        restoreState = true
+                        launchSingleTop = true
+                    }
+                },
         )
     }
 }
