@@ -37,7 +37,12 @@ sealed class NavMenuItem(var route: String, var icon: ImageVector, var title: St
 }
 
 @Composable
-fun Menu(scope: CoroutineScope, scaffoldState: ScaffoldState, navController: NavController) {
+fun Menu(
+	scope: CoroutineScope,
+	scaffoldState: ScaffoldState,
+	navController: NavController,
+//	userViewModel : UserViewModel = hiltViewModel(),
+) {
 	val items = listOf(
 		NavMenuItem.Main,
 		NavMenuItem.LogOut,
@@ -54,7 +59,10 @@ fun Menu(scope: CoroutineScope, scaffoldState: ScaffoldState, navController: Nav
 		val navBackStackEntry by navController.currentBackStackEntryAsState()
 		val currentRoute = navBackStackEntry?.destination?.route
 		items.forEach { item ->
-			MenuItem(item = item, selected = currentRoute == item.route, onItemClick = {
+			MenuItem(
+				item = item,
+				selected = currentRoute == item.route,
+			) {
 				navController.navigate(item.route) {
 					navController.graph.startDestinationRoute?.let { route ->
 						popUpTo(route) {
@@ -70,7 +78,7 @@ fun Menu(scope: CoroutineScope, scaffoldState: ScaffoldState, navController: Nav
 				scope.launch {
 					scaffoldState.drawerState.close()
 				}
-			})
+			}
 		}
 		Spacer(modifier = Modifier.weight(1f))
 		Text(
@@ -91,7 +99,7 @@ fun MenuPreview() {
 	val scope = rememberCoroutineScope()
 	val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
 	val navController = rememberNavController()
-	Menu(scope = scope, scaffoldState = scaffoldState, navController = navController)
+	Menu(scope, scaffoldState, navController)
 }
 
 @Composable

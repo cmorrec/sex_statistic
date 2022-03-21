@@ -5,10 +5,7 @@ import com.zzz.sexstatistic.domain.auth.AuthUseCases
 import com.zzz.sexstatistic.domain.auth.SignIn
 import com.zzz.sexstatistic.domain.repo.AuthRepo
 import com.zzz.sexstatistic.domain.repo.SexRepo
-import com.zzz.sexstatistic.domain.sex.GetSexById
-import com.zzz.sexstatistic.domain.sex.GetSexListForDay
-import com.zzz.sexstatistic.domain.sex.GetSexListForMonth
-import com.zzz.sexstatistic.domain.sex.SexUseCases
+import com.zzz.sexstatistic.domain.sex.*
 import com.zzz.sexstatistic.infrastructure.AuthRepoImpl
 import com.zzz.sexstatistic.infrastructure.SexRepoImpl
 import com.zzz.sexstatistic.infrastructure.database.getAuthSharedPreferences
@@ -55,6 +52,7 @@ object AppModule {
             getSexById = GetSexById(repo),
             getSexListForDay = GetSexListForDay(repo),
             getSexListForMonth = GetSexListForMonth(repo),
+            saveSex = SaveSex(repo),
         )
     }
 }

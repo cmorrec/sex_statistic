@@ -9,4 +9,6 @@ interface SexRepo {
 
     suspend fun getSexById(sexId: String): Sex?
 
+    suspend fun saveSex(sex: Sex): Sex
+
 }

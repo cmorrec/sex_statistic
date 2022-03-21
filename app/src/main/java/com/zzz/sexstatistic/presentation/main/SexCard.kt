@@ -51,14 +51,18 @@ fun SexCard(
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
             )
-            Text(
-                text = getDuration(sex.duration),
-                fontSize = 18.sp,
-            )
-            Text(
-                text = sex.place,
-                fontSize = 18.sp,
-            )
+            sex.duration?.let {
+                Text(
+                    text = getDuration(sex.duration),
+                    fontSize = 18.sp,
+                )
+            }
+            sex.place?.let {
+                Text(
+                    text = it,
+                    fontSize = 18.sp,
+                )
+            }
         }
         Text(
             text = getRating(sex.rating),
@@ -123,6 +127,7 @@ fun DefaultSexCardPreview() {
                             sexList = null,
                         ),
                         rating = 10.0,
+                        null, null, null, null, null, null, null, null, null
                     ),
                     SexPerson(
                         person = Person(
@@ -132,6 +137,7 @@ fun DefaultSexCardPreview() {
                             sexList = null,
                         ),
                         rating = 9.5,
+                        null, null, null, null, null, null, null, null, null
                     ),
                 ),
                 rating = 9.75,

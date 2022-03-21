@@ -57,10 +57,13 @@ class MainActivity : ComponentActivity() {
                                 CalendarScreen(navController = navController)
                             }
                             composable(route = "/sex/{sexId}/edit") { backStackEntry ->
-                                SexEdit(sexId = backStackEntry.arguments?.getString("sexId"))
+                                SexEdit(
+                                    sexId = backStackEntry.arguments?.getString("sexId"),
+                                    navHostController = navController,
+                                )
                             }
                             composable(route = Routes.NEX_SEX) {
-                                SexEdit(sexId = null)
+                                SexEdit(sexId = null, navHostController = navController)
                             }
                         }
                     }

@@ -98,4 +98,7 @@ dependencies {
 
     // material icons
     implementation "androidx.compose.material:material-icons-extended:$compose_version"
+
+    // Nanoid
+    implementation "com.aventrix.jnanoid:jnanoid:2.0.0"
 }

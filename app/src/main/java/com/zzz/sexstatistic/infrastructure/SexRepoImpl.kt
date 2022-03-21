@@ -19,8 +19,8 @@ val sexList = listOf(
         place = "Кровать",
         startDate = LocalDateTime.of(2022, 3, 19, 18, 45),
         sexPersons = listOf(
-            SexPerson(person = person1, rating = 8.6),
-            SexPerson(person = person2, rating = 7.8),
+            SexPerson(person = person1, rating = 8.6, null, null, null, null, null, null, null, null, null),
+            SexPerson(person = person2, rating = 7.8, null, null, null, null, null, null, null, null, null),
         ),
         rating = 8.2,
     ),
@@ -30,8 +30,8 @@ val sexList = listOf(
         place = "Крыша",
         startDate = LocalDateTime.of(2022, 3, 19, 21, 30),
         sexPersons = listOf(
-            SexPerson(person = person1, rating = 8.3),
-            SexPerson(person = person2, rating = 8.5),
+            SexPerson(person = person1, rating = 8.3, null, null, null, null, null, null, null, null, null),
+            SexPerson(person = person2, rating = 8.5, null, null, null, null, null, null, null, null, null),
         ),
         rating = 8.4,
     ),
@@ -41,8 +41,8 @@ val sexList = listOf(
         place = "Стол",
         startDate = LocalDateTime.of(2022, 3, 20, 21, 30),
         sexPersons = listOf(
-            SexPerson(person = person1, rating = 10.0),
-            SexPerson(person = person2, rating = 9.5),
+            SexPerson(person = person1, rating = 10.0, null, null, null, null, null, null, null, null, null),
+            SexPerson(person = person2, rating = 9.5, null, null, null, null, null, null, null, null, null),
         ),
         rating = 9.75,
     ),
@@ -63,6 +63,11 @@ class SexRepoImpl(
     override suspend fun getSexById(sexId: String): Sex? {
         delay(700)
         return sexList.find { it.id == sexId }
+    }
+
+    override suspend fun saveSex(sex: Sex): Sex {
+        delay(700)
+        return sex
     }
 
 }
