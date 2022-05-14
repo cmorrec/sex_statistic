@@ -2,18 +2,14 @@ package com.zzz.sexstatistic.presentation.common
 
 import android.app.DatePickerDialog
 import android.widget.DatePicker
-import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import java.time.LocalDate
-import java.util.Calendar
-import java.util.Date
+import java.util.*
 
 @Composable
 fun CustomDatePicker(
@@ -24,16 +20,14 @@ fun CustomDatePicker(
 
   val calendar = Calendar.getInstance()
 
-  val year = calendar.get(Calendar.YEAR)
-  val month = calendar.get(Calendar.MONTH)
-  val day = calendar.get(Calendar.DAY_OF_MONTH)
-
-  calendar.time = Date()
+  val year = date?.year ?: calendar.get(Calendar.YEAR)
+  val month = if (date != null) date.monthValue - 1 else calendar.get(Calendar.MONTH)
+  val day = date?.dayOfMonth ?: calendar.get(Calendar.DAY_OF_MONTH)
 
   val datePickerDialog = DatePickerDialog(
     context,
     { _: DatePicker, newYear: Int, newMonth: Int, newDay: Int ->
-      setDate(LocalDate.of(newYear, newMonth, newDay))
+      setDate(LocalDate.of(newYear, newMonth + 1, newDay))
     },
     year,
     month,

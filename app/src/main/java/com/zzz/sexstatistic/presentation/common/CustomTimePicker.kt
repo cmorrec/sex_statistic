@@ -10,7 +10,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import java.time.LocalTime
 import java.util.Calendar
-import java.util.Date
 
 @Composable
 fun CustomTimePicker(
@@ -21,10 +20,8 @@ fun CustomTimePicker(
 
   val calendar = Calendar.getInstance()
 
-  val hour = calendar.get(Calendar.HOUR_OF_DAY)
-  val minute = calendar.get(Calendar.MINUTE)
-
-  calendar.time = Date()
+  val hour = time?.hour ?: calendar.get(Calendar.HOUR_OF_DAY)
+  val minute = time?.minute ?: calendar.get(Calendar.MINUTE)
 
   val timePickerDialog = TimePickerDialog(
     context,
