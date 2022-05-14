@@ -94,7 +94,7 @@ dependencies {
     implementation "io.github.boguszpawlowski.composecalendar:composecalendar:0.2.1"
 
     // Status bar color
-    implementation "com.google.accompanist:accompanist-systemuicontroller:0.17.0"
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.23.1"
 
     // material icons
     implementation "androidx.compose.material:material-icons-extended:$compose_version"

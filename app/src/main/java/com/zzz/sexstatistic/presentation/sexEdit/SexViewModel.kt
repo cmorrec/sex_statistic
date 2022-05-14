@@ -12,59 +12,69 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
 class SexViewModel @Inject constructor(
-    private val sexUseCases: SexUseCases,
-): ViewModel() {
+  private val sexUseCases: SexUseCases,
+) : ViewModel() {
 
-    private val _getSexStatus = MutableStateFlow(ActionStatus.INIT)
-    val getSexStatus: StateFlow<ActionStatus>
-        get() = _getSexStatus
+  private val _gettingSexStatus = MutableStateFlow(ActionStatus.INIT)
+  val gettingSexStatus: StateFlow<ActionStatus>
+    get() = _gettingSexStatus
 
-    private val _saveSexStatus = MutableStateFlow(ActionStatus.INIT)
-    val saveSexStatus: StateFlow<ActionStatus>
-        get() = _saveSexStatus
+  private val _savingSexStatus = MutableStateFlow(ActionStatus.INIT)
+  val savingSexStatus: StateFlow<ActionStatus>
+    get() = _savingSexStatus
 
-    private val _currentSex = MutableStateFlow<Sex?>(null)
-    val currentSex: StateFlow<Sex?>
-        get() = _currentSex
+  private val _currentSex = MutableStateFlow<Sex?>(null)
+  val currentSex: StateFlow<Sex?>
+    get() = _currentSex
 
-    fun getSexById(sexId: String?) {
-        if (sexId == null) {
-            _currentSex.value = Sex(
-                id = NanoIdUtils.randomNanoId(),
-                startDate = getCurrentLocalDateTime(),
-                duration = null,
-                place = null,
-                sexPersons = listOf(),
-                rating = null,
-            )
-            _getSexStatus.value = ActionStatus.SUCCESS
-        } else {
-            viewModelScope.launch {
-                _getSexStatus.value = ActionStatus.LOADING
-                val result = sexUseCases.getSexById(sexId)
-                _currentSex.value = result.first
-                _getSexStatus.value = result.second
-            }
-        }
+  private val _currentDate = MutableStateFlow<LocalDate?>(null)
+  val currentDate: StateFlow<LocalDate?>
+    get() = _currentDate
+
+  fun getSexById(sexId: String?) {
+    if (sexId == null) {
+      _currentSex.value = Sex(
+        id = NanoIdUtils.randomNanoId(),
+        startDate = getCurrentLocalDateTime(),
+        duration = null,
+        place = null,
+        sexPersons = listOf(),
+        rating = null,
+      )
+      _gettingSexStatus.value = ActionStatus.SUCCESS
+    } else {
+      viewModelScope.launch {
+        _gettingSexStatus.value = ActionStatus.LOADING
+        val result = sexUseCases.getSexById(sexId)
+        _currentSex.value = result.first
+        saveDate(result.first?.startDate?.toLocalDate())
+        _gettingSexStatus.value = result.second
+      }
     }
+  }
 
-    fun saveSex(sex: Sex, navHostController: NavHostController) {
-        viewModelScope.launch {
-            _saveSexStatus.value = ActionStatus.LOADING
-            val result = sexUseCases.saveSex(sex)
-            _saveSexStatus.value = result.second
-            if (result.second == ActionStatus.SUCCESS) {
-                navHostController.navigate(Routes.MAIN)
-            }
-        }
-    }
+  fun saveDate(newDate: LocalDate?) {
+    _currentDate.value = newDate
+  }
 
-    private fun getCurrentLocalDateTime(): LocalDateTime {
-        return LocalDateTime.now().minusHours(1)
+  fun saveSex(sex: Sex, navHostController: NavHostController) {
+    viewModelScope.launch {
+      _savingSexStatus.value = ActionStatus.LOADING
+      val result = sexUseCases.saveSex(sex)
+      _savingSexStatus.value = result.second
+      if (result.second == ActionStatus.SUCCESS) {
+        navHostController.navigate(Routes.MAIN)
+      }
     }
+  }
+
+  private fun getCurrentLocalDateTime(): LocalDateTime {
+    return LocalDateTime.now().minusHours(1)
+  }
 }

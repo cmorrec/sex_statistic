@@ -1,11 +1,14 @@
 package com.zzz.sexstatistic.presentation.sexEdit
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.material.Button
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -13,31 +16,54 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.zzz.sexstatistic.presentation.ActionStatus
+import com.zzz.sexstatistic.presentation.common.ActionButton
+import com.zzz.sexstatistic.presentation.common.CustomDatePicker
 
 @Composable
 fun SexEdit(
-    sexId: String?,
-    navHostController: NavHostController,
-    sexViewModel : SexViewModel = hiltViewModel(),
+  sexId: String?,
+  navHostController: NavHostController,
+  sexViewModel: SexViewModel = hiltViewModel(),
 ) {
-    val currentSex = sexViewModel.currentSex.collectAsState()
-    val getSexStatus = sexViewModel.getSexStatus.collectAsState()
-    val saveSexStatus = sexViewModel.saveSexStatus.collectAsState()
-    if (currentSex.value == null && getSexStatus.value == ActionStatus.INIT) {
-        sexViewModel.getSexById(sexId)
-    }
-    val isLoading = getSexStatus.value == ActionStatus.LOADING || saveSexStatus.value == ActionStatus.LOADING
-    Box {
-        if (isLoading) CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-        Button(onClick = { sexViewModel.saveSex(currentSex.value!!, navHostController) }) {
-            Text("Save")
+  val currentSex by sexViewModel.currentSex.collectAsState()
+  val date by sexViewModel.currentDate.collectAsState()
+  val gettingSexStatus = sexViewModel.gettingSexStatus.collectAsState()
+  val savingSexStatus = sexViewModel.savingSexStatus.collectAsState()
+  val isLoading = gettingSexStatus.value == ActionStatus.LOADING || savingSexStatus.value == ActionStatus.LOADING
+
+  LaunchedEffect(sexId) {
+    sexViewModel.getSexById(sexId)
+  }
+
+  Box {
+    if (isLoading) {
+      CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+    } else {
+      Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.Start,
+      ) {
+        if (date != null) {
+          CustomDatePicker(date) { sexViewModel.saveDate(it) }
         }
+        ActionButton(
+          text = "Save",
+          onClick = { sexViewModel.saveSex(currentSex!!, navHostController) },
+          enabled = isEnabled(),
+        )
+      }
     }
+  }
+}
+
+fun isEnabled(): Boolean {
+  return true
 }
 
 @Preview(showBackground = false)
 @Composable
 fun SexEditPreview() {
-    val navHostController = rememberNavController()
-	SexEdit(sexId = "1", navHostController = navHostController)
+  val navHostController = rememberNavController()
+  SexEdit(sexId = "1", navHostController = navHostController)
 }
