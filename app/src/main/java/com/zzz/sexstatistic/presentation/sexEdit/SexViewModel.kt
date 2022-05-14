@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,6 +38,10 @@ class SexViewModel @Inject constructor(
   val currentDate: StateFlow<LocalDate?>
     get() = _currentDate
 
+  private val _currentTime = MutableStateFlow<LocalTime?>(null)
+  val currentTime: StateFlow<LocalTime?>
+    get() = _currentTime
+
   fun getSexById(sexId: String?) {
     if (sexId == null) {
       _currentSex.value = Sex(
@@ -54,6 +59,7 @@ class SexViewModel @Inject constructor(
         val result = sexUseCases.getSexById(sexId)
         _currentSex.value = result.first
         saveDate(result.first?.startDate?.toLocalDate())
+        saveTime(result.first?.startDate?.toLocalTime())
         _gettingSexStatus.value = result.second
       }
     }
@@ -61,6 +67,10 @@ class SexViewModel @Inject constructor(
 
   fun saveDate(newDate: LocalDate?) {
     _currentDate.value = newDate
+  }
+
+  fun saveTime(newTime: LocalTime?) {
+    _currentTime.value = newTime
   }
 
   fun saveSex(sex: Sex, navHostController: NavHostController) {

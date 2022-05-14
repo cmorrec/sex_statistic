@@ -3,6 +3,7 @@ package com.zzz.sexstatistic.presentation.sexEdit
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
@@ -18,6 +19,7 @@ import androidx.navigation.compose.rememberNavController
 import com.zzz.sexstatistic.presentation.ActionStatus
 import com.zzz.sexstatistic.presentation.common.ActionButton
 import com.zzz.sexstatistic.presentation.common.CustomDatePicker
+import com.zzz.sexstatistic.presentation.common.CustomTimePicker
 
 @Composable
 fun SexEdit(
@@ -27,6 +29,7 @@ fun SexEdit(
 ) {
   val currentSex by sexViewModel.currentSex.collectAsState()
   val date by sexViewModel.currentDate.collectAsState()
+  val time by sexViewModel.currentTime.collectAsState()
   val gettingSexStatus = sexViewModel.gettingSexStatus.collectAsState()
   val savingSexStatus = sexViewModel.savingSexStatus.collectAsState()
   val isLoading = gettingSexStatus.value == ActionStatus.LOADING || savingSexStatus.value == ActionStatus.LOADING
@@ -44,8 +47,9 @@ fun SexEdit(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start,
       ) {
-        if (date != null) {
+        Row {
           CustomDatePicker(date) { sexViewModel.saveDate(it) }
+          CustomTimePicker(time) { sexViewModel.saveTime(it) }
         }
         ActionButton(
           text = "Save",
